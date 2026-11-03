@@ -1,0 +1,368 @@
+* Skywater PDK 3-Input NOR Testbench
+* Layout / PEX Propagation-Delay Characterization
+
+.lib /foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+
+.subckt NOR3 A B C Y VP VN
+X0 Y A VN VN sky130_fd_pr__nfet_01v8 ad=0.0966 pd=1.02 as=0.0966 ps=1.02 w=0.42 l=0.15
+X1 a_297_186# B a_7_186# VP sky130_fd_pr__pfet_01v8 ad=0.21 pd=1.59333 as=0.21 ps=1.59333 w=1.26 l=0.15
+X2 a_297_186# B a_7_186# VP sky130_fd_pr__pfet_01v8 ad=0.21 pd=1.59333 as=0.21 ps=1.59333 w=1.26 l=0.15
+X3 Y C VN VN sky130_fd_pr__nfet_01v8 ad=0.0966 pd=1.02 as=0.0966 ps=1.02 w=0.42 l=0.15
+X4 Y C a_297_186# VP sky130_fd_pr__pfet_01v8 ad=0.2919 pd=2.14333 as=0.21 ps=1.59333 w=1.26 l=0.15
+X5 Y C a_297_186# VP sky130_fd_pr__pfet_01v8 ad=0.2919 pd=2.14333 as=0.21 ps=1.59333 w=1.26 l=0.15
+X6 a_7_186# B a_297_186# VP sky130_fd_pr__pfet_01v8 ad=0.21 pd=1.59333 as=0.21 ps=1.59333 w=1.26 l=0.15
+X7 VN B Y VN sky130_fd_pr__nfet_01v8 ad=0.0966 pd=1.02 as=0.0966 ps=1.02 w=0.42 l=0.15
+X8 VP A a_7_186# VP sky130_fd_pr__pfet_01v8 ad=0.2898 pd=2.14 as=0.21 ps=1.59333 w=1.26 l=0.15
+X9 a_7_186# A VP VP sky130_fd_pr__pfet_01v8 ad=0.21 pd=1.59333 as=0.2898 ps=2.14 w=1.26 l=0.15
+X10 a_7_186# A VP VP sky130_fd_pr__pfet_01v8 ad=0.21 pd=1.59333 as=0.2898 ps=2.14 w=1.26 l=0.15
+X11 a_297_186# C Y VP sky130_fd_pr__pfet_01v8 ad=0.21 pd=1.59333 as=0.2919 ps=2.14333 w=1.26 l=0.15
+C0 a_297_186# A 0.00218f
+C1 B A 0.05527f
+C2 a_7_186# A 0.03309f
+C3 C A 0
+C4 B a_297_186# 0.05293f
+C5 a_297_186# a_7_186# 0.08691f
+C6 B a_7_186# 0.02486f
+C7 a_297_186# C 0.02891f
+C8 B C 0.05535f
+C9 A Y 0.00711f
+C10 C a_7_186# 0.00161f
+C11 VP A 0.22182f
+C12 a_297_186# Y 0.09207f
+C13 B Y 0.0345f
+C14 VP a_297_186# 0.06789f
+C15 a_7_186# Y 0.00675f
+C16 B VP 0.12777f
+C17 C Y 0.13123f
+C18 VP a_7_186# 0.12084f
+C19 VP C 0.16169f
+C20 VP Y 0.06088f
+C21 Y VN 0.46211f
+C22 C VN 0.45258f
+C23 B VN 0.1732f
+C24 A VN 0.41564f
+C25 VP VN 1.49156f
+C26 a_297_186# VN 0.07086f
+C27 a_7_186# VN 0.09724f
+.ends
+
+.param VDD=1.8
+
+* --- Pin A sweep: B=0, C=0 ---
+VA1 A1 0 PULSE(1.8 0 1n 10p 10p 5n 10n)
+VB1 B1 0 DC 0
+VC1 C1 0 DC 0
+VDD1 vdd1 0 DC {VDD}
+Xnor1 A1 B1 C1 out1 vdd1 gnd NOR3
+Cload1 out1 0 0.5f
+
+VA2 A2 0 PULSE(1.8 0 1n 100p 100p 5n 10n)
+VB2 B2 0 DC 0
+VC2 C2 0 DC 0
+VDD2 vdd2 0 DC {VDD}
+Xnor2 A2 B2 C2 out2 vdd2 gnd NOR3
+Cload2 out2 0 0.5f
+
+VA3 A3 0 PULSE(1.8 0 1n 1000p 1000p 5n 10n)
+VB3 B3 0 DC 0
+VC3 C3 0 DC 0
+VDD3 vdd3 0 DC {VDD}
+Xnor3 A3 B3 C3 out3 vdd3 gnd NOR3
+Cload3 out3 0 0.5f
+
+VA4 A4 0 PULSE(1.8 0 1n 10p 10p 5n 10n)
+VB4 B4 0 DC 0
+VC4 C4 0 DC 0
+VDD4 vdd4 0 DC {VDD}
+Xnor4 A4 B4 C4 out4 vdd4 gnd NOR3
+Cload4 out4 0 10f
+
+VA5 A5 0 PULSE(1.8 0 1n 100p 100p 5n 10n)
+VB5 B5 0 DC 0
+VC5 C5 0 DC 0
+VDD5 vdd5 0 DC {VDD}
+Xnor5 A5 B5 C5 out5 vdd5 gnd NOR3
+Cload5 out5 0 10f
+
+VA6 A6 0 PULSE(1.8 0 1n 1000p 1000p 5n 10n)
+VB6 B6 0 DC 0
+VC6 C6 0 DC 0
+VDD6 vdd6 0 DC {VDD}
+Xnor6 A6 B6 C6 out6 vdd6 gnd NOR3
+Cload6 out6 0 10f
+
+VA7 A7 0 PULSE(1.8 0 1n 10p 10p 5n 10n)
+VB7 B7 0 DC 0
+VC7 C7 0 DC 0
+VDD7 vdd7 0 DC {VDD}
+Xnor7 A7 B7 C7 out7 vdd7 gnd NOR3
+Cload7 out7 0 100f
+
+VA8 A8 0 PULSE(1.8 0 1n 100p 100p 5n 10n)
+VB8 B8 0 DC 0
+VC8 C8 0 DC 0
+VDD8 vdd8 0 DC {VDD}
+Xnor8 A8 B8 C8 out8 vdd8 gnd NOR3
+Cload8 out8 0 100f
+
+VA9 A9 0 PULSE(1.8 0 1n 1000p 1000p 5n 10n)
+VB9 B9 0 DC 0
+VC9 C9 0 DC 0
+VDD9 vdd9 0 DC {VDD}
+Xnor9 A9 B9 C9 out9 vdd9 gnd NOR3
+Cload9 out9 0 100f
+
+* --- Pin B sweep: A=0, C=0 ---
+VA10 A10 0 DC 0
+VB10 B10 0 PULSE(1.8 0 1n 10p 10p 5n 10n)
+VC10 C10 0 DC 0
+VDD10 vdd10 0 DC {VDD}
+Xnor10 A10 B10 C10 out10 vdd10 gnd NOR3
+Cload10 out10 0 0.5f
+
+VA11 A11 0 DC 0
+VB11 B11 0 PULSE(1.8 0 1n 100p 100p 5n 10n)
+VC11 C11 0 DC 0
+VDD11 vdd11 0 DC {VDD}
+Xnor11 A11 B11 C11 out11 vdd11 gnd NOR3
+Cload11 out11 0 0.5f
+
+VA12 A12 0 DC 0
+VB12 B12 0 PULSE(1.8 0 1n 1000p 1000p 5n 10n)
+VC12 C12 0 DC 0
+VDD12 vdd12 0 DC {VDD}
+Xnor12 A12 B12 C12 out12 vdd12 gnd NOR3
+Cload12 out12 0 0.5f
+
+VA13 A13 0 DC 0
+VB13 B13 0 PULSE(1.8 0 1n 10p 10p 5n 10n)
+VC13 C13 0 DC 0
+VDD13 vdd13 0 DC {VDD}
+Xnor13 A13 B13 C13 out13 vdd13 gnd NOR3
+Cload13 out13 0 10f
+
+VA14 A14 0 DC 0
+VB14 B14 0 PULSE(1.8 0 1n 100p 100p 5n 10n)
+VC14 C14 0 DC 0
+VDD14 vdd14 0 DC {VDD}
+Xnor14 A14 B14 C14 out14 vdd14 gnd NOR3
+Cload14 out14 0 10f
+
+VA15 A15 0 DC 0
+VB15 B15 0 PULSE(1.8 0 1n 1000p 1000p 5n 10n)
+VC15 C15 0 DC 0
+VDD15 vdd15 0 DC {VDD}
+Xnor15 A15 B15 C15 out15 vdd15 gnd NOR3
+Cload15 out15 0 10f
+
+VA16 A16 0 DC 0
+VB16 B16 0 PULSE(1.8 0 1n 10p 10p 5n 10n)
+VC16 C16 0 DC 0
+VDD16 vdd16 0 DC {VDD}
+Xnor16 A16 B16 C16 out16 vdd16 gnd NOR3
+Cload16 out16 0 100f
+
+VA17 A17 0 DC 0
+VB17 B17 0 PULSE(1.8 0 1n 100p 100p 5n 10n)
+VC17 C17 0 DC 0
+VDD17 vdd17 0 DC {VDD}
+Xnor17 A17 B17 C17 out17 vdd17 gnd NOR3
+Cload17 out17 0 100f
+
+VA18 A18 0 DC 0
+VB18 B18 0 PULSE(1.8 0 1n 1000p 1000p 5n 10n)
+VC18 C18 0 DC 0
+VDD18 vdd18 0 DC {VDD}
+Xnor18 A18 B18 C18 out18 vdd18 gnd NOR3
+Cload18 out18 0 100f
+
+* --- Pin C sweep: A=0, B=0 ---
+VA19 A19 0 DC 0
+VB19 B19 0 DC 0
+VC19 C19 0 PULSE(1.8 0 1n 10p 10p 5n 10n)
+VDD19 vdd19 0 DC {VDD}
+Xnor19 A19 B19 C19 out19 vdd19 gnd NOR3
+Cload19 out19 0 0.5f
+
+VA20 A20 0 DC 0
+VB20 B20 0 DC 0
+VC20 C20 0 PULSE(1.8 0 1n 100p 100p 5n 10n)
+VDD20 vdd20 0 DC {VDD}
+Xnor20 A20 B20 C20 out20 vdd20 gnd NOR3
+Cload20 out20 0 0.5f
+
+VA21 A21 0 DC 0
+VB21 B21 0 DC 0
+VC21 C21 0 PULSE(1.8 0 1n 1000p 1000p 5n 10n)
+VDD21 vdd21 0 DC {VDD}
+Xnor21 A21 B21 C21 out21 vdd21 gnd NOR3
+Cload21 out21 0 0.5f
+
+VA22 A22 0 DC 0
+VB22 B22 0 DC 0
+VC22 C22 0 PULSE(1.8 0 1n 10p 10p 5n 10n)
+VDD22 vdd22 0 DC {VDD}
+Xnor22 A22 B22 C22 out22 vdd22 gnd NOR3
+Cload22 out22 0 10f
+
+VA23 A23 0 DC 0
+VB23 B23 0 DC 0
+VC23 C23 0 PULSE(1.8 0 1n 100p 100p 5n 10n)
+VDD23 vdd23 0 DC {VDD}
+Xnor23 A23 B23 C23 out23 vdd23 gnd NOR3
+Cload23 out23 0 10f
+
+VA24 A24 0 DC 0
+VB24 B24 0 DC 0
+VC24 C24 0 PULSE(1.8 0 1n 1000p 1000p 5n 10n)
+VDD24 vdd24 0 DC {VDD}
+Xnor24 A24 B24 C24 out24 vdd24 gnd NOR3
+Cload24 out24 0 10f
+
+VA25 A25 0 DC 0
+VB25 B25 0 DC 0
+VC25 C25 0 PULSE(1.8 0 1n 10p 10p 5n 10n)
+VDD25 vdd25 0 DC {VDD}
+Xnor25 A25 B25 C25 out25 vdd25 gnd NOR3
+Cload25 out25 0 100f
+
+VA26 A26 0 DC 0
+VB26 B26 0 DC 0
+VC26 C26 0 PULSE(1.8 0 1n 100p 100p 5n 10n)
+VDD26 vdd26 0 DC {VDD}
+Xnor26 A26 B26 C26 out26 vdd26 gnd NOR3
+Cload26 out26 0 100f
+
+VA27 A27 0 DC 0
+VB27 B27 0 DC 0
+VC27 C27 0 PULSE(1.8 0 1n 1000p 1000p 5n 10n)
+VDD27 vdd27 0 DC {VDD}
+Xnor27 A27 B27 C27 out27 vdd27 gnd NOR3
+Cload27 out27 0 100f
+
+.tran 0.1p 12n 0 0.1p
+
+.meas tran tpd_rise_A_0p5_10p    TRIG V(A1) VAL=0.9 FALL=1 TARG V(out1) VAL=0.9 RISE=1
+.meas tran tpd_fall_A_0p5_10p    TRIG V(A1) VAL=0.9 RISE=1 TARG V(out1) VAL=0.9 FALL=1
+.meas tran tpd_rise_A_0p5_100p   TRIG V(A2) VAL=0.9 FALL=1 TARG V(out2) VAL=0.9 RISE=1
+.meas tran tpd_fall_A_0p5_100p   TRIG V(A2) VAL=0.9 RISE=1 TARG V(out2) VAL=0.9 FALL=1
+.meas tran tpd_rise_A_0p5_1000p  TRIG V(A3) VAL=0.9 FALL=1 TARG V(out3) VAL=0.9 RISE=1
+.meas tran tpd_fall_A_0p5_1000p  TRIG V(A3) VAL=0.9 RISE=1 TARG V(out3) VAL=0.9 FALL=1
+.meas tran tpd_rise_A_10_10p     TRIG V(A4) VAL=0.9 FALL=1 TARG V(out4) VAL=0.9 RISE=1
+.meas tran tpd_fall_A_10_10p     TRIG V(A4) VAL=0.9 RISE=1 TARG V(out4) VAL=0.9 FALL=1
+.meas tran tpd_rise_A_10_100p    TRIG V(A5) VAL=0.9 FALL=1 TARG V(out5) VAL=0.9 RISE=1
+.meas tran tpd_fall_A_10_100p    TRIG V(A5) VAL=0.9 RISE=1 TARG V(out5) VAL=0.9 FALL=1
+.meas tran tpd_rise_A_10_1000p   TRIG V(A6) VAL=0.9 FALL=1 TARG V(out6) VAL=0.9 RISE=1
+.meas tran tpd_fall_A_10_1000p   TRIG V(A6) VAL=0.9 RISE=1 TARG V(out6) VAL=0.9 FALL=1
+.meas tran tpd_rise_A_100_10p    TRIG V(A7) VAL=0.9 FALL=1 TARG V(out7) VAL=0.9 RISE=1
+.meas tran tpd_fall_A_100_10p    TRIG V(A7) VAL=0.9 RISE=1 TARG V(out7) VAL=0.9 FALL=1
+.meas tran tpd_rise_A_100_100p   TRIG V(A8) VAL=0.9 FALL=1 TARG V(out8) VAL=0.9 RISE=1
+.meas tran tpd_fall_A_100_100p   TRIG V(A8) VAL=0.9 RISE=1 TARG V(out8) VAL=0.9 FALL=1
+.meas tran tpd_rise_A_100_1000p  TRIG V(A9) VAL=0.9 FALL=1 TARG V(out9) VAL=0.9 RISE=1
+.meas tran tpd_fall_A_100_1000p  TRIG V(A9) VAL=0.9 RISE=1 TARG V(out9) VAL=0.9 FALL=1
+
+.meas tran tpd_rise_B_0p5_10p    TRIG V(B10) VAL=0.9 FALL=1 TARG V(out10) VAL=0.9 RISE=1
+.meas tran tpd_fall_B_0p5_10p    TRIG V(B10) VAL=0.9 RISE=1 TARG V(out10) VAL=0.9 FALL=1
+.meas tran tpd_rise_B_0p5_100p   TRIG V(B11) VAL=0.9 FALL=1 TARG V(out11) VAL=0.9 RISE=1
+.meas tran tpd_fall_B_0p5_100p   TRIG V(B11) VAL=0.9 RISE=1 TARG V(out11) VAL=0.9 FALL=1
+.meas tran tpd_rise_B_0p5_1000p  TRIG V(B12) VAL=0.9 FALL=1 TARG V(out12) VAL=0.9 RISE=1
+.meas tran tpd_fall_B_0p5_1000p  TRIG V(B12) VAL=0.9 RISE=1 TARG V(out12) VAL=0.9 FALL=1
+.meas tran tpd_rise_B_10_10p     TRIG V(B13) VAL=0.9 FALL=1 TARG V(out13) VAL=0.9 RISE=1
+.meas tran tpd_fall_B_10_10p     TRIG V(B13) VAL=0.9 RISE=1 TARG V(out13) VAL=0.9 FALL=1
+.meas tran tpd_rise_B_10_100p    TRIG V(B14) VAL=0.9 FALL=1 TARG V(out14) VAL=0.9 RISE=1
+.meas tran tpd_fall_B_10_100p    TRIG V(B14) VAL=0.9 RISE=1 TARG V(out14) VAL=0.9 FALL=1
+.meas tran tpd_rise_B_10_1000p   TRIG V(B15) VAL=0.9 FALL=1 TARG V(out15) VAL=0.9 RISE=1
+.meas tran tpd_fall_B_10_1000p   TRIG V(B15) VAL=0.9 RISE=1 TARG V(out15) VAL=0.9 FALL=1
+.meas tran tpd_rise_B_100_10p    TRIG V(B16) VAL=0.9 FALL=1 TARG V(out16) VAL=0.9 RISE=1
+.meas tran tpd_fall_B_100_10p    TRIG V(B16) VAL=0.9 RISE=1 TARG V(out16) VAL=0.9 FALL=1
+.meas tran tpd_rise_B_100_100p   TRIG V(B17) VAL=0.9 FALL=1 TARG V(out17) VAL=0.9 RISE=1
+.meas tran tpd_fall_B_100_100p   TRIG V(B17) VAL=0.9 RISE=1 TARG V(out17) VAL=0.9 FALL=1
+.meas tran tpd_rise_B_100_1000p  TRIG V(B18) VAL=0.9 FALL=1 TARG V(out18) VAL=0.9 RISE=1
+.meas tran tpd_fall_B_100_1000p  TRIG V(B18) VAL=0.9 RISE=1 TARG V(out18) VAL=0.9 FALL=1
+
+.meas tran tpd_rise_C_0p5_10p    TRIG V(C19) VAL=0.9 FALL=1 TARG V(out19) VAL=0.9 RISE=1
+.meas tran tpd_fall_C_0p5_10p    TRIG V(C19) VAL=0.9 RISE=1 TARG V(out19) VAL=0.9 FALL=1
+.meas tran tpd_rise_C_0p5_100p   TRIG V(C20) VAL=0.9 FALL=1 TARG V(out20) VAL=0.9 RISE=1
+.meas tran tpd_fall_C_0p5_100p   TRIG V(C20) VAL=0.9 RISE=1 TARG V(out20) VAL=0.9 FALL=1
+.meas tran tpd_rise_C_0p5_1000p  TRIG V(C21) VAL=0.9 FALL=1 TARG V(out21) VAL=0.9 RISE=1
+.meas tran tpd_fall_C_0p5_1000p  TRIG V(C21) VAL=0.9 RISE=1 TARG V(out21) VAL=0.9 FALL=1
+.meas tran tpd_rise_C_10_10p     TRIG V(C22) VAL=0.9 FALL=1 TARG V(out22) VAL=0.9 RISE=1
+.meas tran tpd_fall_C_10_10p     TRIG V(C22) VAL=0.9 RISE=1 TARG V(out22) VAL=0.9 FALL=1
+.meas tran tpd_rise_C_10_100p    TRIG V(C23) VAL=0.9 FALL=1 TARG V(out23) VAL=0.9 RISE=1
+.meas tran tpd_fall_C_10_100p    TRIG V(C23) VAL=0.9 RISE=1 TARG V(out23) VAL=0.9 FALL=1
+.meas tran tpd_rise_C_10_1000p   TRIG V(C24) VAL=0.9 FALL=1 TARG V(out24) VAL=0.9 RISE=1
+.meas tran tpd_fall_C_10_1000p   TRIG V(C24) VAL=0.9 RISE=1 TARG V(out24) VAL=0.9 FALL=1
+.meas tran tpd_rise_C_100_10p    TRIG V(C25) VAL=0.9 FALL=1 TARG V(out25) VAL=0.9 RISE=1
+.meas tran tpd_fall_C_100_10p    TRIG V(C25) VAL=0.9 RISE=1 TARG V(out25) VAL=0.9 FALL=1
+.meas tran tpd_rise_C_100_100p   TRIG V(C26) VAL=0.9 FALL=1 TARG V(out26) VAL=0.9 RISE=1
+.meas tran tpd_fall_C_100_100p   TRIG V(C26) VAL=0.9 RISE=1 TARG V(out26) VAL=0.9 FALL=1
+.meas tran tpd_rise_C_100_1000p  TRIG V(C27) VAL=0.9 FALL=1 TARG V(out27) VAL=0.9 RISE=1
+.meas tran tpd_fall_C_100_1000p  TRIG V(C27) VAL=0.9 RISE=1 TARG V(out27) VAL=0.9 FALL=1
+
+.control
+run
+
+print tpd_rise_A_0p5_10p
+print tpd_rise_A_0p5_100p
+print tpd_rise_A_0p5_1000p
+print tpd_rise_A_10_10p
+print tpd_rise_A_10_100p
+print tpd_rise_A_10_1000p
+print tpd_rise_A_100_10p
+print tpd_rise_A_100_100p
+print tpd_rise_A_100_1000p
+
+print tpd_fall_A_0p5_10p
+print tpd_fall_A_0p5_100p
+print tpd_fall_A_0p5_1000p
+print tpd_fall_A_10_10p
+print tpd_fall_A_10_100p
+print tpd_fall_A_10_1000p
+print tpd_fall_A_100_10p
+print tpd_fall_A_100_100p
+print tpd_fall_A_100_1000p
+
+print tpd_rise_B_0p5_10p
+print tpd_rise_B_0p5_100p
+print tpd_rise_B_0p5_1000p
+print tpd_rise_B_10_10p
+print tpd_rise_B_10_100p
+print tpd_rise_B_10_1000p
+print tpd_rise_B_100_10p
+print tpd_rise_B_100_100p
+print tpd_rise_B_100_1000p
+
+print tpd_fall_B_0p5_10p
+print tpd_fall_B_0p5_100p
+print tpd_fall_B_0p5_1000p
+print tpd_fall_B_10_10p
+print tpd_fall_B_10_100p
+print tpd_fall_B_10_1000p
+print tpd_fall_B_100_10p
+print tpd_fall_B_100_100p
+print tpd_fall_B_100_1000p
+
+print tpd_rise_C_0p5_10p
+print tpd_rise_C_0p5_100p
+print tpd_rise_C_0p5_1000p
+print tpd_rise_C_10_10p
+print tpd_rise_C_10_100p
+print tpd_rise_C_10_1000p
+print tpd_rise_C_100_10p
+print tpd_rise_C_100_100p
+print tpd_rise_C_100_1000p
+
+print tpd_fall_C_0p5_10p
+print tpd_fall_C_0p5_100p
+print tpd_fall_C_0p5_1000p
+print tpd_fall_C_10_10p
+print tpd_fall_C_10_100p
+print tpd_fall_C_10_1000p
+print tpd_fall_C_100_10p
+print tpd_fall_C_100_100p
+print tpd_fall_C_100_1000p
+
+plot v(a1) v(out1)
+.endc
+
+.end

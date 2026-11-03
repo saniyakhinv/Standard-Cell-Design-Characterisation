@@ -1,0 +1,64 @@
+* DFF1x Dynamic Power Characterization (Negative Edge)
+.lib /foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+.include dff1x_layout.spice
+
+* Parameter definitions for sweeping
+.param clk_slew=10p
+.param output_load=0.5f
+
+VDD vdd 0 DC 1.8
+
+* CLK falls at 1n, 6n, and 11n (5ns Period)
+Vclk clk 0 PULSE(1.8 0 1n {clk_slew} {clk_slew} 2.5n 5n)
+
+* D transitions to 1 at 4ns (captured at 6n), and 0 at 9ns (captured at 11n)
+Vd d 0 PULSE(0 1.8 4n 10p 10p 5n 10n)
+
+* Instance mapping: q vdd vss d clk
+Xdff1 q vdd 0 d clk dff1x_layout
+Cload q 0 {output_load}
+
+.control
+  let pwr_rise_nW = vector(9)
+  let pwr_fall_nW = vector(9)
+  let iter = 0
+
+  echo "DFF DYNAMIC POWER SWEEP"
+
+  * 3x3 Nested loop for Slew vs. Load combinations
+  foreach slew_val 10p 100p 1000p
+    foreach load_val 0.5f 10f 100f
+      
+      alterparam clk_slew = $slew_val
+      alterparam output_load = $load_val
+      reset
+
+      tran 10p 15n
+
+
+      * Measure Q Rise Power (Triggered by 6ns CLK fall)
+      meas tran q_rise INTEG i(VDD) FROM=5.5n TO=8.5n
+      let E_rise = 1.8 * abs(q_rise)
+      * Normalize energy to a baseline 10ns (100MHz) clock cycle to yield nW
+      let pwr_rise_nW[iter] = (E_rise / 10e-9) * 1e9
+
+      * Measure Q Fall Power (Triggered by 11ns CLK fall)
+      meas tran q_fall INTEG i(VDD) FROM=10.5n TO=13.5n
+      let E_fall = 1.8 * abs(q_fall)
+      let pwr_fall_nW[iter] = (E_fall / 10e-9) * 1e9
+
+      * Plot the dynamic current spikes (flip sign to make spikes positive)
+      plot -I(VDD) title "Dynamic Power - CLK Slew: $slew_val, Load: $load_val"
+      plot V(q) V(clk) V(d) title "CLK Slew: $slew_val, Load: $load_val"
+      let iter = iter + 1
+    end
+  end
+
+  echo "========================================"
+  echo "--- (i) Rise Power (nW) ---"
+  print pwr_rise_nW
+  echo "--- (ii) Fall Power (nW) ---"
+  print pwr_fall_nW
+  echo "========================================"
+.endc
+.end

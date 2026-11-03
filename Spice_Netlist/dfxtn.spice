@@ -1,0 +1,36 @@
+.lib /foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+
+.subckt dff1x clk d q vdd vss
+xn_clk clk clkn vdd vss inv1x
+
+xn1 d y1 vdd vss inv1x
+xtg1 y1 y2 clk clkn vdd vss tgate1x
+xtg2 y4 y2 clkn clk vdd vss tgate1x
+xn2 y2 y3 vdd vss inv1x
+xn3 y3 y4 vdd vss inv1x
+
+xtg3 y3 y5 clkn clk vdd vss tgate1x
+xtg4 y7 y5 clk clkn vdd vss tgate1x
+xn4 y5 y6 vdd vss inv1x
+xn5 y6 y7 vdd vss inv1x
+xn6 y6 q vdd vss inv_out
+.ends
+
+*sub circuits used in dff1x
+
+.subckt inv_out a z vdd vss
+xm01 z a vdd vdd sky130_fd_pr__pfet_01v8 l=0.15 w=1.35 as=0.405 ad=0.405 ps=3.3000000000000003 pd=3.3000000000000003
+xm02 z a vss vss sky130_fd_pr__nfet_01v8 l=0.15 w=0.42 as=0.126 ad=0.126 ps=1.44 pd=1.44
+.ends
+
+.subckt inv1x a z vdd vss
+xm01 z a vdd vdd sky130_fd_pr__pfet_01v8 l=0.15 w=1.261 as=0.3783 ad=0.3783 ps=3.122 pd=3.122
+xm02 z a vss vss sky130_fd_pr__nfet_01v8 l=0.15 w=0.42 as=0.126 ad=0.126 ps=1.44 pd=1.44
+.ends
+
+.subckt tgate1x in out z zn vdd vss
+xm01 in zn out vdd sky130_fd_pr__pfet_01v8 l=0.15 w=0.42 as=0.126 ad=0.126 ps=1.44 pd=1.44
+xm02 in z out vss sky130_fd_pr__nfet_01v8 l=0.15 w=0.42 as=0.126 ad=0.126 ps=1.44 pd=1.44
+.ends
+
+

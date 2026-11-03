@@ -1,0 +1,51 @@
+settings:
+  lib_name: "dfxtn"
+  
+  units:
+    time: "ns"
+    capacitive_load: "pF"
+    voltage: "V"
+    current: "uA"
+    pulling_resistance: "kOhm"
+    leakage_power: "nW"
+    energy: "pJ"
+
+  named_nodes:
+    primary_power:
+      name: "VDD"             
+      voltage: 1.8            
+    primary_ground:
+      name: "VSS"             
+      voltage: 0.0
+
+  logic_thresholds:
+    low: 0.2
+    high: 0.8
+    falling: 0.5
+    rising: 0.5
+
+  simulation:
+    backend: "ngspice-subprocess" #"ngspice-shared" 
+
+cells:
+  DFF:
+    netlist: "./dff1x_layout.spice"
+    models:
+      #- "./sky130A_fast.lib.spice"
+      - "/foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt"
+    inputs:
+      - "D"
+    outputs:
+      - "Q"
+    clock: "negedge CLK"
+    functions:
+      - "Q = IQ"
+    state:
+      - "IQ = D"
+    data_slews: [0.01 , 1.0]
+    clock_slews: [ 0.01 , 1.0]
+    loads: [0.005 , 0.01, 0.1]
+    
+    metastability_constraint_sweep_samples: 40         # Reduces the 2D contour grid (default is 40)
+    metastability_constraint_search_tolerance: 0.01    # Widens the bisection search tolerance (default 0.01 ns)
+    metastability_constraint_search_timestep: 0.005     # Increases the step size (default 0.005 ns)

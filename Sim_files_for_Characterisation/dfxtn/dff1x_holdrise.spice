@@ -1,0 +1,178 @@
+* Skywater PDK DFF pex trans Testbench - Hold Time Bisection
+.lib /foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+
+.subckt inv1x A Y VP VN
+X0 Y A VP VP sky130_fd_pr__pfet_01v8 ad=0.8064u pd=6.32u as=0.756u ps=6.24u w=1.26 l=0.15
+X1 Y A VN VN sky130_fd_pr__nfet_01v8 ad=0.2688u pd=2.96u as=0.252u ps=2.88u w=0.42 l=0.15
+C0 VP A 0.08312f
+C1 A Y 0.02881f
+C2 VP Y 0.05132f
+C3 Y VN 0.14836f
+C4 A VN 0.32795f
+C5 VP VN 0.53176f
+.ends
+
+.subckt dff1x clk d q vdd vss
+X0 a_1422_n636# clk a_268_n636# vdd sky130_fd_pr__pfet_01v8 ad=0.126 pd=1.44 as=0.126 ps=1.14 w=0.42 l=0.15
+X1 a_1996_n636# a_1708_n636# vdd vdd sky130_fd_pr__pfet_01v8 ad=0.378 pd=3.42 as=0.378 ps=3.11394 w=1.26 l=0.15
+X2 a_n18_n636# a_n180_n330# a_n308_n636# vdd sky130_fd_pr__pfet_01v8 ad=0.126 pd=1.44 as=0.126 ps=1.14 w=0.42 l=0.15
+X3 a_n308_n636# d vss vss sky130_fd_pr__nfet_01v8 ad=0.126 pd=1.44 as=0.126 ps=1.44 w=0.42 l=0.15
+X4 q a_1708_n636# vss vss sky130_fd_pr__nfet_01v8 ad=0.126 pd=1.44 as=0.126 ps=1.44 w=0.42 l=0.15
+X5 q a_1708_n636# vdd vdd sky130_fd_pr__pfet_01v8 ad=0.405 pd=3.3 as=0.405 ps=3.33636 w=1.35 l=0.15
+X6 a_268_n636# a_n18_n636# vss vss sky130_fd_pr__nfet_01v8 ad=0.126 pd=1.44 as=0.126 ps=1.44 w=0.42 l=0.15
+X7 a_1422_n636# a_n180_n330# a_268_n636# vss sky130_fd_pr__nfet_01v8 ad=0.126 pd=1.44 as=0.126 ps=1.44 w=0.42 l=0.15
+X8 a_1422_n636# a_n180_n330# a_1996_n636# vdd sky130_fd_pr__pfet_01v8 ad=0.126 pd=1.44 as=0.126 ps=1.14 w=0.42 l=0.15
+X9 a_556_n636# a_268_n636# vss vss sky130_fd_pr__nfet_01v8 ad=0.126 pd=1.44 as=0.126 ps=1.44 w=0.42 l=0.15
+X10 a_n18_n636# clk a_n308_n636# vss sky130_fd_pr__nfet_01v8 ad=0.126 pd=1.44 as=0.126 ps=1.44 w=0.42 l=0.15
+X11 a_n180_n330# clk vss vss sky130_fd_pr__nfet_01v8 ad=0.126 pd=1.44 as=0.126 ps=1.44 w=0.42 l=0.15
+X12 a_n308_n636# d vdd vdd sky130_fd_pr__pfet_01v8 ad=0.378 pd=3.42 as=0.378 ps=3.11394 w=1.26 l=0.15
+X13 a_268_n636# a_n18_n636# vdd vdd sky130_fd_pr__pfet_01v8 ad=0.378 pd=3.42 as=0.378 ps=3.11394 w=1.26 l=0.15
+X14 a_n18_n636# clk a_556_n636# vdd sky130_fd_pr__pfet_01v8 ad=0.126 pd=1.44 as=0.126 ps=1.14 w=0.42 l=0.15
+X15 a_1422_n636# clk a_1996_n636# vss sky130_fd_pr__nfet_01v8 ad=0.126 pd=1.44 as=0.126 ps=1.44 w=0.42 l=0.15
+X16 a_1708_n636# a_1422_n636# vss vss sky130_fd_pr__nfet_01v8 ad=0.126 pd=1.44 as=0.126 ps=1.44 w=0.42 l=0.15
+X17 a_556_n636# a_268_n636# vdd vdd sky130_fd_pr__pfet_01v8 ad=0.378 pd=3.42 as=0.378 ps=3.11394 w=1.26 l=0.15
+X18 a_1996_n636# a_1708_n636# vss vss sky130_fd_pr__nfet_01v8 ad=0.126 pd=1.44 as=0.126 ps=1.44 w=0.42 l=0.15
+X19 a_n180_n330# clk vdd vdd sky130_fd_pr__pfet_01v8 ad=0.378 pd=3.12 as=0.378 ps=3.11394 w=1.26 l=0.15
+X20 a_n18_n636# a_n180_n330# a_556_n636# vss sky130_fd_pr__nfet_01v8 ad=0.126 pd=1.44 as=0.126 ps=1.44 w=0.42 l=0.15
+X21 a_1708_n636# a_1422_n636# vdd vdd sky130_fd_pr__pfet_01v8 ad=0.378 pd=3.12 as=0.378 ps=3.11394 w=1.26 l=0.15
+C0 a_1708_n636# a_n18_n636# 0
+C1 d a_n180_n330# 0.00328f
+C2 a_1708_n636# a_268_n636# 0.00603f
+C3 a_556_n636# a_n18_n636# 0.18702f
+C4 a_n18_n636# a_1422_n636# 0.0049f
+C5 a_n18_n636# clk 0.23578f
+C6 d a_n18_n636# 0.00191f
+C7 a_556_n636# a_268_n636# 0.06668f
+C8 a_1708_n636# a_1996_n636# 0.06455f
+C9 a_268_n636# a_1422_n636# 0.15287f
+C10 clk a_268_n636# 0.26117f
+C11 a_1708_n636# a_1422_n636# 0.16736f
+C12 a_1708_n636# clk 0.25935f
+C13 d a_268_n636# 0
+C14 a_1996_n636# a_1422_n636# 0.18801f
+C15 clk a_1996_n636# 0.1324f
+C16 q a_1708_n636# 0.03638f
+C17 a_556_n636# a_1422_n636# 0
+C18 a_556_n636# clk 0.10746f
+C19 clk a_1422_n636# 0.11595f
+C20 d clk 0.01557f
+C21 q a_1422_n636# 0.02012f
+C22 vdd a_n308_n636# 0.08414f
+C23 a_n308_n636# a_n180_n330# 0.08693f
+C24 vdd a_n180_n330# 0.54209f
+C25 a_n18_n636# a_n308_n636# 0.1494f
+C26 a_n18_n636# vdd 0.15957f
+C27 a_268_n636# a_n308_n636# 0
+C28 a_268_n636# vdd 0.82661f
+C29 a_1708_n636# vdd 0.69044f
+C30 a_n18_n636# a_n180_n330# 0.22561f
+C31 a_1996_n636# vdd 0.0644f
+C32 clk a_n308_n636# 0.12189f
+C33 a_556_n636# vdd 0.06959f
+C34 vdd a_1422_n636# 0.18609f
+C35 clk vdd 0.72504f
+C36 a_268_n636# a_n180_n330# 0.4284f
+C37 d a_n308_n636# 0.02759f
+C38 a_1708_n636# a_n180_n330# 0.11083f
+C39 d vdd 0.08222f
+C40 q vdd 0.02645f
+C41 a_1996_n636# a_n180_n330# 0.13142f
+C42 a_n18_n636# a_268_n636# 0.11957f
+C43 a_556_n636# a_n180_n330# 0.16449f
+C44 a_n180_n330# a_1422_n636# 0.17231f
+C45 clk a_n180_n330# 0.76148f
+C46 q vss 0.11048f
+C47 clk vss 1.05813f
+C48 d vss 0.21374f
+C49 vdd vss 3.39055f
+C50 a_1996_n636# vss 0.1699f
+C51 a_556_n636# vss 0.16477f
+C52 a_n308_n636# vss 0.22551f
+C53 a_1708_n636# vss 0.56831f
+C54 a_1422_n636# vss 0.89214f
+C55 a_268_n636# vss 0.359f
+C56 a_n18_n636# vss 0.87426f
+C57 a_n180_n330# vss 0.87024f
+.ends
+
+* Setup Parameters
+.param clk_slew=10p
+.param d_slew=10p
+* t_width determines exactly when Data falls. It is adjusted by the binary search.
+.param t_width=5n 
+
+* Voltage Sources
+Vclk clk 0 PULSE(0 1.8 0 {clk_slew} {clk_slew} 5000p 10n)
+VDD vdd 0 DC 1.8
+* Vd rises at 10ns, and falls at 10ns + t_width
+Vd d 0 PULSE(0 1.8 10n {d_slew} {d_slew} {t_width} 200n)
+
+* DUT
+Xdff1 clk d out vdd 0 dff1x
+Xnot2 out out2 vdd 0 inv1x
+
+.tran 1p 25n
+
+.control
+  set noaskquit
+  set nomore
+  
+  * Loop through your requested slews
+  foreach c_val 10p 1000p
+    foreach d_val 10p 1000p
+      
+      echo "--- Testing CLK Slew = $c_val, D Slew = $d_val ---"
+      
+      * WIDENED BOUNDS: 
+      * 8.0n ensures D falls extremely late (Guaranteed Pass)
+      * 2.0n ensures D falls extremely early (Guaranteed Fail)
+      let t_pass = 8.0n
+      let t_fail = 2.0n
+      let diff = t_pass - t_fail
+      
+      * Binary search loop down to 1 picosecond tolerance
+      while diff > 1p
+        let t_try = (t_pass + t_fail) / 2
+        
+        alterparam clk_slew = $c_val
+        alterparam d_slew = $d_val
+        alterparam t_width = $&t_try
+        reset
+        
+        * Run the simulation 
+        run
+        
+        * Measure if the output caught the '1' by checking it at 20ns.
+        meas tran v_out_check FIND v(out) AT=20n
+        
+        * Update bisection boundaries
+        if v_out_check > 0.9
+            let t_pass = t_try
+        else
+            let t_fail = t_try
+        end
+        let diff = t_pass - t_fail
+      end
+      
+      * We found the edge! Run one last time with the exact passing parameter.
+      alterparam t_width = $&t_pass
+      reset
+      run
+      
+      * Safer measurement: Find absolute times of the 50% crossings
+      * This prevents Ngspice errors if hold time ends up being negative!
+      meas tran time_clk WHEN v(clk)=0.9 fall=2
+      meas tran time_d WHEN v(d)=0.9 fall=1
+      
+      * Hold Time = (Time Data Falls) - (Time Clock Falls)
+      let hold_ps = (time_d - time_clk) * 1e12
+      
+      echo ">> CLK Slew = $c_val | D Slew = $d_val | Final Hold Time = $&hold_ps ps<-------------------------------------------------------------------"
+      echo ""
+      
+    end
+  end
+  echo "----------------------------"
+.endc
+
+.end

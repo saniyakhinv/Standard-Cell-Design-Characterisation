@@ -1,0 +1,54 @@
+* DFF1x Input Pin Capacitance Characterization
+.lib /foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+
+.include dff1x_layout.spice
+
+VDD vdd 0 DC 1.8
+
+* D PIN CAPACITANCE (Hold CLK = 0)
+Vd_in d_in 0 PULSE(0 1.8 0 20p 20p 500p 1n)
+Vam_d d_in d_node 0 DC 0
+Vclk_d clk_d 0 DC 0
+
+Xdff_d q_d vdd 0 d_node clk_d dff1x_layout
+
+* CLK PIN CAPACITANCE (Hold D = 0)
+Vd_clk d_clk 0 DC 0
+Vclk_in clk_in 0 PULSE(0 1.8 0 20p 20p 500p 1n)
+Vam_clk clk_in clk_node 0 DC 0
+
+Xdff_clk q_clk vdd 0 d_clk clk_node dff1x_layout
+
+.tran 1p 1.5n
+
+* D Pin Measurements
+.meas tran q_d_rise INTEG I(Vam_d) FROM=0 TO=20p
+.meas tran c_d_rise_F param='q_d_rise/1.8'
+.meas tran c_d_rise_pF param='c_d_rise_F * 1e12'
+
+.meas tran q_d_fall_raw INTEG I(Vam_d) FROM=520p TO=540p
+.meas tran c_d_fall_F param='-q_d_fall_raw/1.8'
+.meas tran c_d_fall_pF param='c_d_fall_F * 1e12'
+
+.meas tran c_d_avg_pF param='(c_d_rise_pF + c_d_fall_pF)/2'
+
+* CLK Pin Measurements
+.meas tran q_clk_rise INTEG I(Vam_clk) FROM=0 TO=20p
+.meas tran c_clk_rise_F param='q_clk_rise/1.8'
+.meas tran c_clk_rise_pF param='c_clk_rise_F * 1e12'
+
+.meas tran q_clk_fall_raw INTEG I(Vam_clk) FROM=520p TO=540p
+.meas tran c_clk_fall_F param='-q_clk_fall_raw/1.8'
+.meas tran c_clk_fall_pF param='c_clk_fall_F * 1e12'
+
+.meas tran c_clk_avg_pF param='(c_clk_rise_pF + c_clk_fall_pF)/2'
+
+.control
+run
+print c_d_rise_pF c_d_fall_pF c_d_avg_pF
+print c_clk_rise_pF c_clk_fall_pF c_clk_avg_pF
+
+plot V(d_in) title "D Pin Capacitance Test Waveform"
+plot V(clk_in) title "CLK Pin Capacitance Test Waveform"
+.endc
+.end

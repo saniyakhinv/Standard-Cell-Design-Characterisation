@@ -1,0 +1,118 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1787680387
+<< nwell >>
+rect -196 202 98 528
+<< nmos >>
+rect -34 40 -4 124
+<< pmos >>
+rect -34 240 -4 492
+<< ndiff >>
+rect -94 100 -34 124
+rect -94 66 -79 100
+rect -45 66 -34 100
+rect -94 40 -34 66
+rect -4 100 60 124
+rect -4 66 13 100
+rect 47 66 60 100
+rect -4 40 60 66
+<< pdiff >>
+rect -94 300 -34 492
+rect -94 266 -79 300
+rect -45 266 -34 300
+rect -94 240 -34 266
+rect -4 300 60 492
+rect -4 266 13 300
+rect 47 266 60 300
+rect -4 240 60 266
+<< ndiffc >>
+rect -79 66 -45 100
+rect 13 66 47 100
+<< pdiffc >>
+rect -79 266 -45 300
+rect 13 266 47 300
+<< psubdiff >>
+rect -160 99 -94 124
+rect -160 65 -148 99
+rect -114 65 -94 99
+rect -160 40 -94 65
+<< nsubdiff >>
+rect -160 299 -94 492
+rect -160 265 -148 299
+rect -114 265 -94 299
+rect -160 240 -94 265
+<< psubdiffcont >>
+rect -148 65 -114 99
+<< nsubdiffcont >>
+rect -148 265 -114 299
+<< poly >>
+rect -34 492 -4 518
+rect -274 178 -206 194
+rect -274 138 -262 178
+rect -222 176 -206 178
+rect -34 176 -4 240
+rect -222 142 -4 176
+rect -222 138 -206 142
+rect -274 122 -206 138
+rect -34 124 -4 142
+rect -34 10 -4 40
+<< polycont >>
+rect -262 138 -222 178
+<< locali >>
+rect -142 534 -132 560
+rect -98 534 -86 560
+rect -142 316 -86 534
+rect -151 300 -38 316
+rect -151 299 -79 300
+rect -151 265 -148 299
+rect -114 266 -79 299
+rect -45 266 -38 300
+rect -114 265 -38 266
+rect -151 248 -38 265
+rect 4 300 60 316
+rect 4 266 13 300
+rect 47 266 60 300
+rect -274 178 -206 194
+rect -274 138 -262 178
+rect -222 138 -206 178
+rect -274 122 -206 138
+rect -258 102 -224 122
+rect -151 100 -38 116
+rect -151 99 -79 100
+rect -151 65 -148 99
+rect -114 66 -79 99
+rect -45 66 -38 100
+rect -114 65 -38 66
+rect -151 48 -38 65
+rect 4 108 60 266
+rect 4 100 98 108
+rect 4 66 13 100
+rect 47 68 98 100
+rect 47 66 60 68
+rect 4 48 60 66
+rect -94 22 -38 48
+rect -94 2 -82 22
+rect -48 2 -38 22
+<< viali >>
+rect -132 534 -98 568
+rect -82 -16 -48 22
+<< metal1 >>
+rect -196 568 98 602
+rect -196 534 -132 568
+rect -98 534 98 568
+rect -196 508 98 534
+rect -176 22 66 58
+rect -176 -16 -82 22
+rect -48 -16 66 22
+rect -176 -38 66 -16
+<< labels >>
+rlabel locali -242 102 -242 102 5 A
+port 1 s
+rlabel locali 98 88 98 88 3 Y
+port 2 e
+rlabel metal1 -196 560 -196 560 7 VP
+port 3 w
+rlabel metal1 -176 8 -176 8 7 VN
+port 4 w
+<< end >>

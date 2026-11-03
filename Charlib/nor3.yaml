@@ -1,0 +1,39 @@
+settings:
+    lib_name: sky130_nor3
+
+    named_nodes:
+        primary_power:
+            name: VP        
+            voltage: 1.8
+        primary_ground:
+            name: VN        
+            voltage: 0
+
+    units:
+        time: ns
+        voltage: V
+        current: uA
+        capacitive_load: pF
+        leakage_power: nW
+        pulling_resistance: kOhm
+
+    results_dir: results
+
+    simulation:
+        backend: ngspice-subprocess
+
+cells:
+    NOR3:
+        netlist: /foss/designs/NOR3_char.spice
+
+        models:
+            - /foss/pdks/ciel/sky130/versions/f6eeac7dad085ffcc829ccfd721f7b4ce39edcf7/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+
+        inputs: [A, B, C]
+        outputs: ['Y']
+
+        functions:
+            - Y=!(A|B|C)
+
+        data_slews: [0.015, 0.04, 0.08, 0.2, 0.4]
+        loads: [0.01, 0.05, 0.1, 0.2, 0.5]

@@ -1,0 +1,92 @@
+VERSION 5.7 ;
+  NOWIREEXTENSIONATPIN ON ;
+  DIVIDERCHAR "/" ;
+  BUSBITCHARS "[]" ;
+MACRO NOR3
+  CLASS BLOCK ;
+  FOREIGN NOR3 ;
+  ORIGIN 1.020 0.460 ;
+  SIZE 5.950 BY 2.970 ;
+  PIN A
+    ANTENNAGATEAREA 0.630000 ;
+    PORT
+      LAYER li1 ;
+        RECT -0.740 0.090 -0.260 0.460 ;
+    END
+  END A
+  PIN B
+    ANTENNAGATEAREA 0.630000 ;
+    PORT
+      LAYER li1 ;
+        RECT 1.710 0.440 2.100 0.720 ;
+    END
+  END B
+  PIN C
+    ANTENNAGATEAREA 0.630000 ;
+    PORT
+      LAYER li1 ;
+        RECT 4.450 0.090 4.930 0.450 ;
+    END
+  END C
+  PIN Y
+    ANTENNADIFFAREA 1.165500 ;
+    PORT
+      LAYER li1 ;
+        RECT 3.930 1.230 4.270 1.270 ;
+        RECT 2.950 1.020 4.270 1.230 ;
+        RECT 3.930 0.950 4.270 1.020 ;
+        RECT 1.500 -0.120 1.820 0.210 ;
+        RECT 2.490 0.160 2.800 0.210 ;
+        RECT 3.980 0.160 4.200 0.950 ;
+        RECT 2.490 -0.040 4.200 0.160 ;
+        RECT 2.490 -0.120 2.790 -0.040 ;
+        RECT 3.980 -0.120 4.200 -0.040 ;
+      LAYER met1 ;
+        RECT 1.510 0.150 1.810 0.190 ;
+        RECT 2.550 0.150 2.810 0.190 ;
+        RECT 1.510 -0.030 2.810 0.150 ;
+        RECT 1.510 -0.100 1.810 -0.030 ;
+        RECT 2.550 -0.100 2.810 -0.030 ;
+    END
+  END Y
+  PIN VP
+    ANTENNADIFFAREA 1.335600 ;
+    PORT
+      LAYER nwell ;
+        RECT -1.015 1.815 4.545 2.370 ;
+        RECT -1.020 0.660 4.545 1.815 ;
+      LAYER li1 ;
+        RECT -0.750 2.370 -0.210 2.420 ;
+        RECT 0.600 2.370 0.770 2.420 ;
+        RECT -0.800 1.295 -0.130 2.370 ;
+        RECT 0.540 2.210 0.870 2.370 ;
+        RECT 0.530 1.910 0.870 2.210 ;
+        RECT -0.800 0.985 -0.120 1.295 ;
+        RECT -0.800 0.980 -0.460 0.985 ;
+      LAYER met1 ;
+        RECT -1.020 2.340 4.570 2.510 ;
+        RECT -1.020 2.220 4.550 2.340 ;
+    END
+  END VP
+  PIN VN
+    ANTENNADIFFAREA 0.445200 ;
+    PORT
+      LAYER li1 ;
+        RECT 0.660 -0.380 1.330 0.180 ;
+        RECT 1.990 -0.380 2.320 0.210 ;
+      LAYER met1 ;
+        RECT 0.660 -0.170 0.990 -0.110 ;
+        RECT 0.660 -0.240 1.330 -0.170 ;
+        RECT 1.990 -0.240 2.320 -0.170 ;
+        RECT 0.570 -0.460 2.980 -0.240 ;
+    END
+  END VN
+  OBS
+      LAYER li1 ;
+        RECT 2.470 1.890 3.750 2.100 ;
+        RECT 0.060 1.530 2.330 1.740 ;
+        RECT 1.460 1.090 2.780 1.300 ;
+  END
+END NOR3
+END LIBRARY
+

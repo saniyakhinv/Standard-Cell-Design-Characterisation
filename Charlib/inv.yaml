@@ -1,0 +1,36 @@
+settings:
+  lib_name: "inv_1x_lib"
+  
+  units:
+    time: "ns"
+    capacitive_load: "pF"
+    voltage: "V"
+    current: "uA"
+    pulling_resistance: "kOhm"
+    leakage_power: "nW"
+    energy: "pJ"
+
+  named_nodes:
+    primary_power:
+      name: "VP"             
+      voltage: 1.8            
+    primary_ground:
+      name: "VN"             
+      voltage: 0.0
+
+  simulation:
+    backend: "ngspice-shared" #"ngspice-subprocess"  # Or "ngspice-shared"
+
+cells:
+  INVX1_Saniya_new_pex_Subckt:
+    netlist: "./invx1_pex.spice"
+    models:
+      - "/foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt"
+    inputs:
+      - "A"
+    outputs:
+      - "Y"
+    functions:
+      - "Y = !A"
+    data_slews: [0.010, 0.100, 1]   
+    loads: [0.0005, 0.010, 0.100]         

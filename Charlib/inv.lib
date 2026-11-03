@@ -1,0 +1,104 @@
+library (inv_1x_lib){
+  technology : cmos ;
+  delay_model : table_lookup ;
+  bus_naming_style : "%s-%d" ;
+  time_unit : "1ns" ;
+  voltage_unit : "1V" ;
+  leakage_power_unit : "1nW" ;
+  current_unit : "1uA" ;
+  pulling_resistance_unit : "1uA" ;
+  capacitive_load_unit (1, pF);
+  nom_process : 1.00 ;
+  nom_voltage : 1.80 ;
+  nom_temperature : 25 ;
+  slew_upper_threshold_pct_rise : 0.80 ;
+  slew_lower_threshold_pct_rise : 0.20 ;
+  slew_upper_threshold_pct_fall : 0.80 ;
+  slew_lower_threshold_pct_fall : 0.20 ;
+  input_threshold_pct_rise : 0.50 ;
+  input_threshold_pct_fall : 0.50 ;
+  output_threshold_pct_rise : 0.50 ;
+  output_threshold_pct_fall : 0.50 ;
+  operating_conditions (typical) {
+    process : 1.00 ;
+    voltage : 1.80 ;
+    temperature : 25 ;
+  } /* end operating_conditions */
+  lu_table_template (delay_template_3x3) {
+    variable_1 : total_output_net_capacitance ;
+    variable_2 : input_net_transition ;
+    index_1 ("1.0, 2.0, 3.0");
+    index_2 ("1.0, 2.0, 3.0");
+  } /* end lu_table_template */
+  cell (INVX1_Saniya_new_pex_Subckt) {
+    area : 0.00 ;
+    pin (A) {
+      direction : input ;
+      capacitance : 0.015827 ;
+    } /* end pin */
+    pin (Y) {
+      direction : output ;
+      function : "Y = !A" ;
+      timing () {
+        related_pin : A ;
+        timing_type : combinational_rise ;
+        cell_rise (delay_template_3x3) {
+          index_1 ("0.000500, 0.010000, 0.100000") ;
+          index_2 ("0.010000, 0.100000, 1.000000") ;
+          values ( \
+            "0.012046, 0.030771, 0.063745" \
+            "0.051458, 0.089320, 0.260433" \
+            "0.414097, 0.452083, 0.837880" \
+          ) ;
+        } /* end cell_rise */
+        rise_transition (delay_template_3x3) {
+          index_1 ("0.000500, 0.010000, 0.100000") ;
+          index_2 ("0.010000, 0.100000, 1.000000") ;
+          values ( \
+            "0.007518, 0.027697, 0.156851" \
+            "0.063568, 0.069932, 0.258200" \
+            "0.594737, 0.594774, 0.676739" \
+          ) ;
+        } /* end rise_transition */
+      } /* end timing */
+      timing () {
+        related_pin : A ;
+        timing_type : combinational_fall ;
+        fall_transition (delay_template_3x3) {
+          index_1 ("0.000500, 0.010000, 0.100000") ;
+          index_2 ("0.010000, 0.100000, 1.000000") ;
+          values ( \
+            "0.007615, 0.024103, 0.123768" \
+            "0.067433, 0.071837, 0.235692" \
+            "0.634595, 0.634639, 0.701495" \
+          ) ;
+        } /* end fall_transition */
+        cell_fall (delay_template_3x3) {
+          index_1 ("0.000500, 0.010000, 0.100000") ;
+          index_2 ("0.010000, 0.100000, 1.000000") ;
+          values ( \
+            "0.014310, 0.031085, 0.048921" \
+            "0.062143, 0.095027, 0.248088" \
+            "0.496757, 0.530602, 0.875619" \
+          ) ;
+        } /* end cell_fall */
+      } /* end timing */
+    } /* end pin */
+    pg_pin (VP) {
+      voltage_name : VP ;
+      pg_type : primary_power ;
+    } /* end pg_pin */
+    pg_pin (VN) {
+      voltage_name : VN ;
+      pg_type : primary_ground ;
+    } /* end pg_pin */
+    leakage_power () {
+      when : "!A" ;
+      value : 0.003294 ;
+    } /* end leakage_power */
+    leakage_power () {
+      when : A ;
+      value : 0.093067 ;
+    } /* end leakage_power */
+  } /* end cell */
+} /* end library */

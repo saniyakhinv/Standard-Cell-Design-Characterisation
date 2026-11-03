@@ -1,0 +1,18 @@
+* Skywater PDK 3-input NOR Testbench
+
+.lib /foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+
+.subckt nor3 A B C Y VP VN
+
+* PMOS network - 3 in series
+xm01 n1 A VP VP sky130_fd_pr__pfet_01v8 l=0.15 w=3.78 as=1.134 ad=1.134 ps=8.16 pd=8.16
+xm02 n2 B n1 VP sky130_fd_pr__pfet_01v8 l=0.15 w=3.78 as=1.134 ad=1.134 ps=8.16 pd=8.16
+xm03 Y C n2 VP sky130_fd_pr__pfet_01v8 l=0.15 w=3.78 as=1.134 ad=1.134 ps=8.16 pd=8.16
+
+
+* NMOS network - 3 in parallel
+xm04 Y A VN VN sky130_fd_pr__nfet_01v8 l=0.15 w=0.42 as=0.126 ad=0.126 ps=1.44 pd=1.44
+xm05 Y B VN VN sky130_fd_pr__nfet_01v8 l=0.15 w=0.42 as=0.126 ad=0.126 ps=1.44 pd=1.44
+xm06 Y C VN VN sky130_fd_pr__nfet_01v8 l=0.15 w=0.42 as=0.126 ad=0.126 ps=1.44 pd=1.44
+.ends nor3
+

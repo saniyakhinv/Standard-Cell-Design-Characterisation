@@ -1,0 +1,53 @@
+VERSION 5.7 ;
+  NOWIREEXTENSIONATPIN ON ;
+  DIVIDERCHAR "/" ;
+  BUSBITCHARS "[]" ;
+MACRO INVX1_Saniya_new
+  CLASS BLOCK ;
+  FOREIGN INVX1_Saniya_new ;
+  ORIGIN 1.370 0.190 ;
+  SIZE 1.860 BY 3.200 ;
+  PIN A
+    ANTENNAGATEAREA 0.252000 ;
+    PORT
+      LAYER li1 ;
+        RECT -1.370 0.610 -1.030 0.970 ;
+        RECT -1.290 0.510 -1.120 0.610 ;
+    END
+  END A
+  PIN Y
+    ANTENNADIFFAREA 0.537600 ;
+    PORT
+      LAYER li1 ;
+        RECT 0.020 0.540 0.300 1.580 ;
+        RECT 0.020 0.340 0.490 0.540 ;
+        RECT 0.020 0.240 0.300 0.340 ;
+    END
+  END Y
+  PIN VP
+    ANTENNADIFFAREA 0.793800 ;
+    PORT
+      LAYER nwell ;
+        RECT -0.980 1.010 0.490 2.640 ;
+      LAYER li1 ;
+        RECT -0.660 2.800 -0.490 2.840 ;
+        RECT -0.710 1.580 -0.430 2.800 ;
+        RECT -0.755 1.240 -0.190 1.580 ;
+      LAYER met1 ;
+        RECT -0.980 2.540 0.490 3.010 ;
+    END
+  END VP
+  PIN VN
+    ANTENNADIFFAREA 0.264600 ;
+    PORT
+      LAYER li1 ;
+        RECT -0.755 0.240 -0.190 0.580 ;
+        RECT -0.470 0.010 -0.190 0.240 ;
+        RECT -0.410 -0.080 -0.240 0.010 ;
+      LAYER met1 ;
+        RECT -0.880 -0.190 0.330 0.290 ;
+    END
+  END VN
+END INVX1_Saniya_new
+END LIBRARY
+

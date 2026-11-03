@@ -1,0 +1,133 @@
+* NGSPICE Standard Cell Characterization - NOR3 Static Power
+* Measures static power for all 8 input combinations
+* Also plots supply current vs time in pA
+
+.lib /foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+
+
+.subckt NOR3 A B C Y VP VN
+X0 Y A VN VN sky130_fd_pr__nfet_01v8 ad=0.0966 pd=1.02 as=0.0966 ps=1.02 w=0.42 l=0.15
+X1 a_297_186# B a_7_186# VP sky130_fd_pr__pfet_01v8 ad=0.21 pd=1.59333 as=0.21 ps=1.59333 w=1.26 l=0.15
+X2 a_297_186# B a_7_186# VP sky130_fd_pr__pfet_01v8 ad=0.21 pd=1.59333 as=0.21 ps=1.59333 w=1.26 l=0.15
+X3 Y C VN VN sky130_fd_pr__nfet_01v8 ad=0.0966 pd=1.02 as=0.0966 ps=1.02 w=0.42 l=0.15
+X4 Y C a_297_186# VP sky130_fd_pr__pfet_01v8 ad=0.2919 pd=2.14333 as=0.21 ps=1.59333 w=1.26 l=0.15
+X5 Y C a_297_186# VP sky130_fd_pr__pfet_01v8 ad=0.2919 pd=2.14333 as=0.21 ps=1.59333 w=1.26 l=0.15
+X6 a_7_186# B a_297_186# VP sky130_fd_pr__pfet_01v8 ad=0.21 pd=1.59333 as=0.21 ps=1.59333 w=1.26 l=0.15
+X7 VN B Y VN sky130_fd_pr__nfet_01v8 ad=0.0966 pd=1.02 as=0.0966 ps=1.02 w=0.42 l=0.15
+X8 VP A a_7_186# VP sky130_fd_pr__pfet_01v8 ad=0.2898 pd=2.14 as=0.21 ps=1.59333 w=1.26 l=0.15
+X9 a_7_186# A VP VP sky130_fd_pr__pfet_01v8 ad=0.21 pd=1.59333 as=0.2898 ps=2.14 w=1.26 l=0.15
+X10 a_7_186# A VP VP sky130_fd_pr__pfet_01v8 ad=0.21 pd=1.59333 as=0.2898 ps=2.14 w=1.26 l=0.15
+X11 a_297_186# C Y VP sky130_fd_pr__pfet_01v8 ad=0.21 pd=1.59333 as=0.2919 ps=2.14333 w=1.26 l=0.15
+C0 a_297_186# A 0.00218f
+C1 B A 0.05527f
+C2 a_7_186# A 0.03309f
+C3 C A 0
+C4 B a_297_186# 0.05293f
+C5 a_297_186# a_7_186# 0.08691f
+C6 B a_7_186# 0.02486f
+C7 a_297_186# C 0.02891f
+C8 B C 0.05535f
+C9 A Y 0.00711f
+C10 C a_7_186# 0.00161f
+C11 VP A 0.22182f
+C12 a_297_186# Y 0.09207f
+C13 B Y 0.0345f
+C14 VP a_297_186# 0.06789f
+C15 a_7_186# Y 0.00675f
+C16 B VP 0.12777f
+C17 C Y 0.13123f
+C18 VP a_7_186# 0.12084f
+C19 VP C 0.16169f
+C20 VP Y 0.06088f
+C21 Y VN 0.46211f
+C22 C VN 0.45258f
+C23 B VN 0.1732f
+C24 A VN 0.41564f
+C25 VP VN 1.49156f
+C26 a_297_186# VN 0.07086f
+C27 a_7_186# VN 0.09724f
+.ends
+
+VDD vdd 0 DC 1.8
+
+VA A 0 DC 0
+VB B 0 DC 0
+VC C 0 DC 0
+
+Xnor A B C out vdd 0 NOR3
+
+.tran 1p 1n
+
+.control
+
+* STATIC POWER - ALL 8 INPUT COMBINATIONS
+
+* Plot I(VDD) versus time
+tran 1p 1n
+let Idd_000_pA = I(VDD)*1e12
+plot Idd_000_pA title "I(VDD) vs Time - A=0 B=0 C=0"
+
+* A=0 B=0 C=1
+alter VA dc=0
+alter VB dc=0
+alter VC dc=1.8
+op
+let P001 = 1.8*abs(I(VDD))*1e9
+print P001
+
+
+* A=0 B=1 C=0
+alter VA dc=0
+alter VB dc=1.8
+alter VC dc=0
+op
+let P010 = 1.8*abs(I(VDD))*1e9
+print P010
+
+
+* A=0 B=1 C=1
+alter VA dc=0
+alter VB dc=1.8
+alter VC dc=1.8
+op
+let P011 = 1.8*abs(I(VDD))*1e9
+print P011
+
+
+* A=1 B=0 C=0
+alter VA dc=1.8
+alter VB dc=0
+alter VC dc=0
+op
+let P100 = 1.8*abs(I(VDD))*1e9
+print P100
+
+
+* A=1 B=0 C=1
+alter VA dc=1.8
+alter VB dc=0
+alter VC dc=1.8
+op
+let P101 = 1.8*abs(I(VDD))*1e9
+print P101
+
+
+* A=1 B=1 C=0
+alter VA dc=1.8
+alter VB dc=1.8
+alter VC dc=0
+op
+let P110 = 1.8*abs(I(VDD))*1e9
+print P110
+
+
+* A=1 B=1 C=1
+alter VA dc=1.8
+alter VB dc=1.8
+alter VC dc=1.8
+op
+let P111 = 1.8*abs(I(VDD))*1e9
+print P111
+
+
+.endc

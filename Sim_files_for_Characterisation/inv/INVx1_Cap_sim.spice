@@ -1,0 +1,46 @@
+* NGSPICE file modified to measure input pin capacitance
+* Skywater PDK Simple Inverter Testbench
+.lib /foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+
+.subckt INVX1_Saniya_new_pex_Subckt A Y VP VN
+X0 Y A VP VP sky130_fd_pr__pfet_01v8 ad=0.8064u pd=6.32u as=0.756u ps=6.24u w=1.26 l=0.15
+X1 Y A VN VN sky130_fd_pr__nfet_01v8 ad=0.2688u pd=2.96u as=0.252u ps=2.88u w=0.42 l=0.15
+C0 VP A 0.08312f
+C1 A Y 0.02881f
+C2 VP Y 0.05132f
+C3 Y VN 0.14836f
+C4 A VN 0.32795f
+C5 VP VN 0.53176f
+.ends
+
+* The voltage source:
+Vin in 0 PULSE(0 1.8 0 20p 20p 500p 1n)
+VDD vdd 0 DC 1.8
+
+* Dummy voltage source (Ammeter) to measure current flowing specifically into pin A
+Vammeter in in_inv 0 DC 0
+
+Xnot1 in_inv out vdd gnd INVX1_Saniya_new_pex_Subckt
+Xnot2 out out2 vdd gnd INVX1_Saniya_new_pex_Subckt
+
+.tran 1p 1.5n
+
+* Rise Capacitance (Input rising from 0 to 20ps)
+.meas tran q_rise INTEG I(Vammeter) FROM=0p TO=20p
+.meas tran c_rise_F param='q_rise/1.8'
+.meas tran c_rise_pF param='c_rise_F * 1e12'
+
+* Fall Capacitance (Input falling from 520ps to 540ps)
+.meas tran q_fall_raw INTEG I(Vammeter) FROM=520p TO=540p
+.meas tran c_fall_F param='-q_fall_raw/1.8'
+.meas tran c_fall_pF param='c_fall_F * 1e12'
+
+* Average Capacitance
+.meas tran c_avg_pF param='(c_rise_pF + c_fall_pF)/2'
+
+.control
+run
+print c_rise_pF c_fall_pF c_avg_pF
+plot V(in_inv) V(out)
+.endc
+.end

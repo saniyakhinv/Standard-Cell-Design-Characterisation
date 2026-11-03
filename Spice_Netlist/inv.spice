@@ -1,0 +1,15 @@
+.lib /foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+
+
+.subckt INVX1_Saniya_new_pex_Subckt A Y VP VN
+X0 Y A VP VP sky130_fd_pr__pfet_01v8 ad=0.8064u pd=6.32u as=0.756u ps=6.24u w=1.26 l=0.15
+X1 Y A VN VN sky130_fd_pr__nfet_01v8 ad=0.2688u pd=2.96u as=0.252u ps=2.88u w=0.42 l=0.15
+C0 VP A 0.08312f
+C1 A Y 0.02881f
+C2 VP Y 0.05132f
+C3 Y VN 0.14836f
+C4 A VN 0.32795f
+C5 VP VN 0.53176f
+.ends
+
+

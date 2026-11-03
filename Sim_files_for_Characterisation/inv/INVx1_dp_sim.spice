@@ -1,0 +1,58 @@
+* NGSPICE Standard Cell Characterization - Dynamic Power
+.lib /foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+
+.subckt INVX1_Saniya_new_pex_Subckt A Y VP VN
+X0 Y A VP VP sky130_fd_pr__pfet_01v8 ad=0.8064u pd=6.32u as=0.756u ps=6.24u w=1.26 l=0.15
+X1 Y A VN VN sky130_fd_pr__nfet_01v8 ad=0.2688u pd=2.96u as=0.252u ps=2.88u w=0.42 l=0.15
+C0 VP A 0.08312f
+C1 A Y 0.02881f
+C2 VP Y 0.05132f
+C3 Y VN 0.14836f
+C4 A VN 0.32795f
+C5 VP VN 0.53176f
+.ends
+
+* Parameter definitions for sweeping
+.param input_slew=10p
+.param output_load=0.5f
+
+VDD vdd 0 DC 1.8
+Vin in 0 PULSE(0 1.8 0 {input_slew} {input_slew} 2.5n 5n)
+
+Xnot1 in out vdd 0 INVX1_Saniya_new_pex_Subckt
+Cload out 0 {output_load}
+
+.control
+  * 3x3 Nested loop for Slew vs. Load combinations
+  foreach slew_val 10p 100p 1000p
+    foreach load_val 0.5f 10f 100f
+      
+      * Update parameters and reset circuit state
+      alterparam input_slew = $slew_val
+      alterparam output_load = $load_val
+      reset
+      
+      tran 1p 6n
+      
+      print "=== Input Slew: $slew_val | Output Load: $load_val ==="
+      
+      * total charge drawn during fall
+      meas tran q_fall INTEG I(VDD) FROM=0 TO=2.5n
+      
+      * total charge drawn during rise
+      meas tran q_rise INTEG I(VDD) FROM=2.5n TO=5.0n
+      
+      * I(VDD) is negative when supplying power in SPICE, so we multiply by -1.8
+      let energy_fall_J = -q_fall * 1.8
+      let energy_rise_J = -q_rise * 1.8
+      
+      * Avg power over the 5ns interval
+      let pwr_fall_W = energy_fall_J / 5e-9
+      let pwr_rise_W = energy_rise_J / 5e-9
+      
+      print pwr_rise_W pwr_fall_W
+      
+    end
+  end
+.endc
+.end

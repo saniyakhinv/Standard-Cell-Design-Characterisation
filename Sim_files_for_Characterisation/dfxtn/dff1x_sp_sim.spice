@@ -1,0 +1,57 @@
+* DFF1x Static Power Characterization
+.lib /foss/pdks/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+.include dff1x_layout.spice
+
+VDD vdd 0 DC 1.8
+
+* Declare Vclk as PULSE to allow dynamic edge triggering
+Vclk clk 0 PULSE(1.8 0 1n 10p 10p 10n 20n)
+Vd d 0 DC 0
+
+Xdff1 q vdd 0 d clk dff1x_layout
+
+.control
+  echo "--- DFF STATIC POWER SUMMARY (nW) ---"
+
+  * 00
+  alter @Vclk[pulse] = [ 1.8 0 1n 10p 10p 10n 20n ]
+  alter Vd dc = 0
+  tran 1p 4n
+  meas tran I_00 FIND i(VDD) AT=3.9n
+  let P00_nW = 1.8 * abs(I_00) * 1e9
+  echo "--- Condition 00 ---"
+  print P00_nW
+  plot -i(VDD) title "00"
+
+  * 01
+  alter @Vclk[pulse] = [ 1.8 0 1n 10p 10p 10n 20n ]
+  alter Vd dc = 1.8
+  tran 1p 4n
+  meas tran I_01 FIND i(VDD) AT=3.9n
+  let P01_nW = 1.8 * abs(I_01) * 1e9
+  echo "--- Condition 01 ---"
+  print P01_nW
+  plot -i(VDD) title "01"
+
+  * 10
+  alter @Vclk[pulse] = [ 0 1.8 1n 10p 10p 10n 20n ]
+  alter Vd dc = 0
+  tran 1p 4n
+  meas tran I_10 FIND i(VDD) AT=3.9n
+  let P10_nW = 1.8 * abs(I_10) * 1e9
+  echo "--- Condition 10 ---"
+  print P10_nW
+  plot -i(VDD) title "10"
+
+  * 11
+  alter @Vclk[pulse] = [ 0 1.8 1n 10p 10p 10n 20n ]
+  alter Vd dc = 1.8
+  tran 1p 4n
+  meas tran I_11 FIND i(VDD) AT=3.9n
+  let P11_nW = 1.8 * abs(I_11) * 1e9
+  echo "--- Condition 11 ---"
+  print P11_nW
+  plot -i(VDD) title "11"
+  
+.endc
+.end
